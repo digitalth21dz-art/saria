@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Invitation au mariage Faycal & Silya</title>
+        <meta name="description" content="Mariage de Faycal & Silya • 30 septembre 2026">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #3c101a;
+            --black-light: #B8860B;
+            --white: #f3eee9;
+            --charcoal: #ffff;
+            --gray-light: #f3eee9;
+            --navy: #1a1a2e;
+            --gold: #c9a96e;
+            --gold-accent: #B8860B;
+        }
+
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            background: #f3eee9;
+            font-family: 'Cormorant Garamond', serif;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        /* ----- ÉCRAN SPLASH (IMAGE PLEIN ÉCRAN) ----- */
+        .splash-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        .splash-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .splash-screen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            position: absolute;
+            inset: 0;
+        }
+
+        .splash-tap-text {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            color: #fff;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            z-index: 10;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            animation: splashPulse 2s ease-in-out infinite;
+            pointer-events: none;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 10px 25px;
+            border-radius: 30px;
+            backdrop-filter: blur(4px);
+        }
+
+        @keyframes splashPulse {
+            0%,
+            100% {
+                opacity: 0.5;
+                letter-spacing: 4px;
+            }
+            50% {
+                opacity: 1;
+                letter-spacing: 6px;
+            }
+        }
+
+        /* ----- OVERLAY VIDÉO PLEIN ÉCRAN ----- */
+        .video-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 150;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            pointer-events: none;
+        }
+
+        .video-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .video-overlay video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            position: absolute;
+            inset: 0;
+        }
+
+        .skip-video-btn {
+            position: absolute;
+            bottom: 40px;
+            right: 20px;
+            z-index: 20;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .skip-video-btn:active {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #fff;
+            transform: scale(0.95);
+        }
+
+        /* ----- CONTENEUR PRINCIPAL (mobile frame) ----- */
+        .mobile-frame {
+            width: 100%;
+            max-width: 400px;
+            min-height: 100vh;
+            min-height: 100dvh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ----- CONTENU INVITATION ----- */
+        .invitation-content {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease 0.3s;
+            padding-bottom: 40px;
+        }
+
+        .invitation-content.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .main-card {
+            background: var(--white);
+            position: relative;
+            padding: 40px 15px;
+            min-height: 85vh;
+            min-height: 85dvh;
+        }
+
+        .ornate-frame {
+            position: relative;
+            border: 1.5px solid var(--black-light);
+            padding: 60px 15px;
+            min-height: 70vh;
+            min-height: 70dvh;
+        }
+
+        .corner {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            border: 1.5px solid var(--black-light);
+        }
+
+        .corner-tl {
+            top: -1.5px;
+            left: -1.5px;
+            border-right: none;
+            border-bottom: none;
+        }
+        .corner-tr {
+            top: -1.5px;
+            right: -1.5px;
+            border-left: none;
+            border-bottom: none;
+        }
+        .corner-bl {
+            bottom: -1.5px;
+            left: -1.5px;
+            border-right: none;
+            border-top: none;
+        }
+        .corner-br {
+            bottom: -1.5px;
+            right: -1.5px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .photo-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            height: 300px;
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .photo-card:active img {
+            transform: scale(1.05);
+        }
+
+        .photo-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(11, 60, 38, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .photo-card:active .photo-overlay {
+            opacity: 1;
+        }
+
+        .photo-overlay h3 {
+            font-family: 'Playfair Display', serif;
+            color: white;
+            font-size: 1.6rem;
+            letter-spacing: 2px;
+            border-bottom: 1px solid white;
+            padding-bottom: 5px;
+            text-align: center;
+        }
+
+        .groom-name {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .groom-name h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.8rem;
+            color: var(--navy);
+            font-weight: 400;
+        }
+
+        .groom-name h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin: 5px 0;
+        }
+
+        .wedding-date {
+            text-align: center;
+            margin: 20px 0 10px 0;
+        }
+
+        .wedding-date p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            color: var(--navy);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .countdown-title {
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            color: var(--black-light);
+            margin: 30px 0 15px;
+            font-weight: 500;
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        .countdown-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background-color: var(--black);
+        }
+
+        .countdown-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin: 20px auto 30px;
+            max-width: 100%;
+            padding: 0 5px;
+        }
+
+        .time-box {
+            background: #ffffff;
+            border: 1px solid var(--gold);
+            padding: 15px 5px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .time-box span {
+            display: block;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            color: var(--navy);
+            font-weight: 500;
+            line-height: 1.1;
+        }
+
+        .time-box small {
+            display: block;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            color: #666;
+            letter-spacing: 1.5px;
+            margin-top: 5px;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .divider-line {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--navy), transparent);
+        }
+
+        .divider-icon {
+            font-size: 0.9rem;
+            color: var(--navy);
+        }
+
+        .details-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.2rem;
+            color: var(--black-light);
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .details-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.65rem;
+            color: #888;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .event-info {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            color: #555;
+        }
+
+        .map-container {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            overflow: visible;
+            margin: 20px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 200px;
+            border: none;
+            display: block;
+        }
+
+        .btn-itinerary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            color: var(--black-light);
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+      
+
+        .closing-message {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.8;
+            margin: 30px 20px;
+            padding: 0 10px;
+            text-align: center;
+        }
+
+        /* ----- BOUTON FLOTTANT MUSIQUE ----- */
+        .music-control-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 50px;
+            height: 50px;
+            background-color: #AF8F2C;
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            z-index: 99;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s, opacity 0.4s ease, visibility 0.4s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .music-control-btn.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .music-control-btn:active {
+            transform: scale(0.9);
+        }
+
+        .music-control-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: #ffffff;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ----- RESPONSIVE ----- */
+        @media (max-width: 400px) {
+            .mobile-frame {
+                max-width: 100%;
+            }
+            .groom-name h2 {
+                font-size: 2.4rem;
+            }
+            .time-box span {
+                font-size: 1.4rem;
+            }
+            .photo-card {
+                height: 220px;
+            }
+            .photo-overlay h3 {
+                font-size: 1.3rem;
+            }
+            .splash-tap-text {
+                font-size: 0.7rem;
+                bottom: 40px;
+                padding: 8px 20px;
+            }
+            .skip-video-btn {
+                bottom: 30px;
+                right: 15px;
+                font-size: 0.65rem;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Musique de fond (cachée, contrôlée par le bouton) -->
+    <audio id="bgMusic" loop preload="none">
+        <source src="musique.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- ÉCRAN SPLASH : IMAGE PLEIN ÉCRAN -->
+    <div class="splash-screen" id="splashScreen">
+        <img src="envelope.jpg" alt="Ouverture de l'invitation">
+        <div class="splash-tap-text">Toucher pour commencer</div>
+    </div>
+
+    <!-- OVERLAY VIDÉO PLEIN ÉCRAN (caché au départ) -->
+    <div class="video-overlay" id="videoOverlay">
+        <video id="introVideo" muted playsinline preload="auto">
+            <source src="video.mp4" type="video/mp4">
+        </video>
+        <button class="skip-video-btn" id="skipVideoBtn" style="display: none;">Passer ➤</button>
+    </div>
+
+    <!-- BOUTON FLOTTANT MUSIQUE (caché tant que la vidéo n'est pas terminée) -->
+    <button class="music-control-btn" id="musicBtn" onclick="toggleMusic()" aria-label="Contrôle de la musique">
+        <svg id="musicIcon" viewBox="0 0 24 24">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+        </svg>
+    </button>
+
+    <!-- CONTENU DE L'INVITATION -->
+    <div class="mobile-frame">
+        <div class="invitation-content" id="invitationContent">
+
+            <img src="M.png" alt="Fountain Decoration" style="display: block; width: 100%; height: auto; margin: 0; padding: 0;">
+
+            <div class="main-card">
+                <div class="ornate-frame">
+                    <div class="corner corner-tl"></div>
+                    <div class="corner corner-tr"></div>
+                    <div class="corner corner-bl"></div>
+                    <div class="corner corner-br"></div>
+                    <h3 class="countdown-title fade-in">Le compte à rebours commence</h3>
+                    <div class="wedding-date fade-in">
+                        <p>Le 21 Aout 2026</p>
+                        <p>16H:00</p>
+                    </div>
+                    <div class="countdown-container fade-in" id="countdown">
+                        <div class="time-box"><span id="days">00</span><small>Jours</small></div>
+                        <div class="time-box"><span id="hours">00</span><small>Heures</small></div>
+                        <div class="time-box"><span id="minutes">00</span><small>Minutes</small></div>
+                        <div class="time-box"><span id="seconds">00</span><small>Secondes</small></div>
+                    </div>
+                    <div class="wedding-date fade-in">
+                        <p>Soyez les bienvenus</p>
+                    </div>
+                    <div class="divider fade-in">
+                        <div class="divider-line"></div>
+                        <span class="divider-icon">✦</span>
+                        <div class="divider-line"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-card">
+                <div class="ornate-frame">
+                    <div class="corner corner-tl"></div>
+                    <div class="corner corner-tr"></div>
+                    <div class="corner corner-bl"></div>
+                    <div class="corner corner-br"></div>
+                    <h3 class="details-title fade-in">Notre Salle de Réception</h3>
+                    <p class="details-subtitle fade-in">Rejoignez-nous</p>
+                    <div class="event-info fade-in">
+                        <div class="info-item">
+                            <span>El Andalous Baraki (El Merdja) </span>
+                        </div>
+                    </div>
+                    <div class="photo-grid fade-in">
+                        <div class="photo-card">
+                            <img src="salle.jpg" alt="Salle de Réception">
+                            <div class="photo-overlay">
+                                <h3>Cadre prestigieux</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-card">
+                <div class="ornate-frame">
+                    <div class="corner corner-tl"></div>
+                    <div class="corner corner-tr"></div>
+                    <div class="corner corner-bl"></div>
+                    <div class="corner corner-br"></div>
+                    <h3 class="details-title fade-in">Détails de l'Événement</h3>
+                    <p class="details-subtitle fade-in">Rejoignez-nous</p>
+                    <div class="event-info fade-in">
+                        <div class="info-item">
+                            <span>Horaires : À partir de 16h00</span>
+                        </div>
+                        <div class="info-item">
+                            <span>El Andalous Baraki (El Merdja)</span>
+                        </div>
+                    </div>
+                    <div class="map-container fade-in">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3200.321309939439!2d3.110284574196198!3d36.66677487521219!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128e534358172f7d%3A0xe3f818e245960837!2sSalle%20des%20f%C3%AAtes%20El%20Andalouse!5e0!3m2!1sfr!2sdz!4v1785509184722!5m2!1sfr!2sdz" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                        <p class="closing-message fade-in">
+                            Rejoignez-nous dans un cadre élégant et raffiné pour célébrer ce moment inoubliable.
+                        </p>
+                        <a href="https://maps.app.goo.gl/KDozxn5oCL3VEuhN9" class="btn-itinerary fade-in" target="_blank">
+                            <span>➤</span> Ouvrir l'itinéraire
+                        </a>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // --- ÉLÉMENTS DU DOM ---
+            const splashScreen = document.getElementById('splashScreen');
+            const videoOverlay = document.getElementById('videoOverlay');
+            const introVideo = document.getElementById('introVideo');
+            const skipVideoBtn = document.getElementById('skipVideoBtn');
+            const invitationContent = document.getElementById('invitationContent');
+            const musicBtn = document.getElementById('musicBtn');
+            const music = document.getElementById('bgMusic');
+            const musicIcon = document.getElementById('musicIcon');
+
+            let isPlaying = false;
+            let videoFinished = false;
+
+            // --- FONCTIONS AUDIO ---
+            function playAudio() {
+                if (!music) return;
+                music.play().then(() => {
+                    isPlaying = true;
+                    updateMusicIcon();
+                }).catch(() => {});
+            }
+
+            function pauseAudio() {
+                if (!music) return;
+                music.pause();
+                isPlaying = false;
+                updateMusicIcon();
+            }
+
+            function updateMusicIcon() {
+                if (!musicIcon) return;
+                if (isPlaying) {
+                    musicIcon.innerHTML =
+                        '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>';
+                } else {
+                    musicIcon.innerHTML =
+                        '<path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.21.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>';
+                }
+            }
+
+            window.toggleMusic = function() {
+                if (isPlaying) {
+                    pauseAudio();
+                } else {
+                    playAudio();
+                }
+            };
+
+            // --- AFFICHER LE CONTENU DE L'INVITATION ---
+            function showInvitationContent() {
+                if (videoFinished) return; // éviter double appel
+                videoFinished = true;
+
+                // Cacher l'overlay vidéo
+                videoOverlay.classList.remove('active');
+                // Cacher aussi le splash (au cas où)
+                splashScreen.classList.add('hidden');
+
+                // Afficher le contenu
+                invitationContent.classList.add('visible');
+                // Afficher le bouton musique
+                if (musicBtn) musicBtn.classList.add('visible');
+
+                // Lancer la musique d'ambiance
+                playAudio();
+
+                // Animer les éléments fade-in
+                const fadeElements = document.querySelectorAll('.fade-in');
+                fadeElements.forEach((el, index) => {
+                    setTimeout(() => {
+                        el.classList.add('visible');
+                    }, 200 + (index * 120));
+                });
+            }
+
+            // --- LANCER LA VIDÉO ---
+            function startVideo() {
+                // Cacher le splash
+                splashScreen.classList.add('hidden');
+                // Afficher l'overlay vidéo
+                videoOverlay.classList.add('active');
+                // Jouer la vidéo (mute déjà présent)
+                introVideo.currentTime = 0;
+                introVideo.play().catch(() => {
+                    // Sur certains navigateurs, il faut une interaction utilisateur
+                    // On force le play avec muted (déjà présent)
+                    introVideo.muted = true;
+                    introVideo.play();
+                });
+            }
+
+            // --- ÉVÉNEMENTS ---
+            // Clic sur l'image splash
+            splashScreen.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (!videoFinished && !videoOverlay.classList.contains('active')) {
+                    startVideo();
+                }
+            });
+
+            // Toucher sur mobile (évite double appel)
+            splashScreen.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                if (!videoFinished && !videoOverlay.classList.contains('active')) {
+                    startVideo();
+                }
+            });
+
+            // Quand la vidéo se termine
+            introVideo.addEventListener('ended', function() {
+                showInvitationContent();
+            });
+
+            // Bouton "Passer" la vidéo
+            skipVideoBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                introVideo.pause();
+                showInvitationContent();
+            });
+
+            // Si la vidéo ne se lance pas (fallback après 500ms)
+            introVideo.addEventListener('error', function() {
+                // En cas d'erreur de chargement de la vidéo, on passe directement au contenu
+                setTimeout(() => {
+                    if (!videoFinished) {
+                        showInvitationContent();
+                    }
+                }, 300);
+            });
+
+            // Fallback : si la vidéo est bloquée, on attend un peu puis on affiche le contenu
+            setTimeout(() => {
+                if (!videoFinished && videoOverlay.classList.contains('active') && introVideo.paused &&
+                    introVideo.currentTime < 0.1) {
+                    // La vidéo n'a pas démarré après 2 secondes, on passe au contenu
+                    showInvitationContent();
+                }
+            }, 2500);
+
+            // --- COMPTE À REBOURS ---
+            const targetDate = new Date("Augest 21, 2026 16:00:00").getTime();
+
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const difference = targetDate - now;
+                const countdownEl = document.getElementById("countdown");
+                if (difference <= 0) {
+                    if (countdownEl) {
+                        countdownEl.innerHTML =
+                            "<div style='font-family: Cormorant Garamond; font-size:1.2rem; color:var(--navy); letter-spacing:2px; font-weight:600; text-transform:uppercase; grid-column: span 4; text-align:center;'>C'est le grand jour !</div>";
+                    }
+                    return;
+                }
+                const d = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const h = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((difference % (1000 * 60)) / 1000);
+                const daysEl = document.getElementById("days");
+                const hoursEl = document.getElementById("hours");
+                const minutesEl = document.getElementById("minutes");
+                const secondsEl = document.getElementById("seconds");
+                if (daysEl) daysEl.innerText = String(d).padStart(2, '0');
+                if (hoursEl) hoursEl.innerText = String(h).padStart(2, '0');
+                if (minutesEl) minutesEl.innerText = String(m).padStart(2, '0');
+                if (secondsEl) secondsEl.innerText = String(s).padStart(2, '0');
+            }
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
+
+            // --- INTERSECTION OBSERVER POUR LES FADE-IN ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+            // --- PRÉ-CHARGEMENT DOUX DE LA VIDÉO (optionnel) ---
+            if (introVideo) {
+                introVideo.load();
+            }
+
+            console.log('✨ Invitation prête. Touchez l\'image pour commencer l\'expérience.');
+        })();
+    </script>
+</body>
+</html>
